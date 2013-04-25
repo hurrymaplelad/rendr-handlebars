@@ -1,6 +1,6 @@
 var helpers = require('./helpers'),
-    templates = null
-    func, key;
+    templates = null,
+    key;
 
 for (key in helpers) {
   if (helpers.hasOwnProperty(key)) {

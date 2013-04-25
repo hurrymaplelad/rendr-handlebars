@@ -11,8 +11,8 @@ Handlebars.log || (Handlebars.log = function(obj) {
 module.exports = {
   view: function(viewName, block) {
     var ViewClass, app, html, options, view;
-    BaseView || (BaseView = require('./base/view'));
-    modelUtils || (modelUtils = require('./modelUtils'));
+    BaseView || (BaseView = require('rendr/shared/base/view'));
+    modelUtils || (modelUtils = require('rendr/shared/modelUtils'));
 
     viewName = modelUtils.underscorize(viewName);
 
