@@ -1,17 +1,20 @@
-var helpers = require('./helpers'),
-    templates = null,
-    key;
+/*global rendr*/
 
-for (key in helpers) {
-  if (helpers.hasOwnProperty(key)) {
-    Handlebars.registerHelper(key, helpers[key]);
-  }
+var Handlebars, handlebarsHelpers, templates;
+
+Handlebars = require('handlebars');
+handlebarsHelpers = require('./helpers');
+
+for (var key in handlebarsHelpers) {
+  if (!handlebarsHelpers.hasOwnProperty(key)) continue;
+  Handlebars.registerHelper(key, handlebarsHelpers[key]);
 }
 
+templates = null;
+
 exports.getTemplate = function(templateName) {
-  // Allow compiledTemplates to be created asynchronously.
-  if(!templates) {
-    templates = require(rendr.entryPath + '/app/templates/compiledTemplates')(Handlebars);
-  }
+  /* Allow compiledTemplates to be created asynchronously.
+  */
+  templates = templates || require(rendr.entryPath + '/app/templates/compiledTemplates')(Handlebars);
   return templates[templateName];
 };
