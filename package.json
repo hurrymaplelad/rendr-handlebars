@@ -1,6 +1,6 @@
 {
   "name": "rendr-handlebars",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Glue handlebars templates into a Rendr app.",
   "main": "index.js",
   "scripts": {
@@ -8,10 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/hurrymaplelad/rendr-handlebars.git"
+    "url": "http://github.com/airbnb/rendr-handlebars.git"
   },
   "peerDependencies": {
-    "rendr": "0.2.x"
+    "rendr": "0.4.6-rc.1"
   },
   "dependencies": {
     "underscore": "~1.4.4",
