@@ -11,7 +11,7 @@
     "url": "http://github.com/airbnb/rendr-handlebars.git"
   },
   "peerDependencies": {
-    "rendr": "0.4.6-rc.1"
+    "rendr": "~0.4.7"
   },
   "dependencies": {
     "underscore": "~1.4.4",

@@ -23,10 +23,20 @@ if (typeof window === 'undefined') {
 
 /**
  * Register helpers, available on both client and server.
+ *
+ * Export it so other modules can register helpers as well.
  */
-var handlebarsHelpers = require('./shared/helpers')(Handlebars, exports.getTemplate);
+exports.registerHelpers = function registerHelpers(helpersModule) {
+  var helpers = helpersModule(Handlebars, exports.getTemplate);
 
-for (var key in handlebarsHelpers) {
-  if (!handlebarsHelpers.hasOwnProperty(key)) continue;
-  Handlebars.registerHelper(key, handlebarsHelpers[key]);
-}
+  for (var key in helpers) {
+    if (!helpers.hasOwnProperty(key)) continue;
+    Handlebars.registerHelper(key, helpers[key]);
+  }
+};
+
+/**
+ * Register the pre-bundled Rendr helpers.
+ */
+var rendrHelpers = require('./shared/helpers');
+exports.registerHelpers(rendrHelpers);
