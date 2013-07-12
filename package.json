@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "underscore": "~1.4.4",
-    "handlebars": "git://github.com/spikebrehm/handlebars.js.git#0687c7016c62122ab160a8683817a931b03354ad",
+    "handlebars": "git://github.com/spikebrehm/handlebars.js.git#efca3c8ef5665fe3cf2802f866db0c73755824e0",
     "rendr": "~0.4.8"
   },
   "keywords": [
