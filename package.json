@@ -1,6 +1,6 @@
 {
   "name": "rendr-handlebars",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Glue handlebars templates into a Rendr app.",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "underscore": "~1.4.4",
-    "handlebars": "git://github.com/spikebrehm/handlebars.js.git#efca3c8ef5665fe3cf2802f866db0c73755824e0",
+    "handlebars": "git://github.com/spikebrehm/handlebars.js.git#6bbcf3f2225b0e62d249481d07456698da7da65e",
     "rendr": "~0.4.8"
   },
   "keywords": [
