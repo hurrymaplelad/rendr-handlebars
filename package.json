@@ -1,10 +1,10 @@
 {
   "name": "rendr-handlebars",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Glue handlebars templates into a Rendr app.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/**/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -13,16 +13,20 @@
   "dependencies": {
     "underscore": "~1.4.4",
     "handlebars": "git://github.com/spikebrehm/handlebars.js.git#6bbcf3f2225b0e62d249481d07456698da7da65e",
-    "rendr": "~0.4.8"
+    "rendr": "~0.4.8",
+    "minimatch": "~0.2.12"
   },
   "keywords": [
     "rendr",
     "handlebars",
     "templates"
   ],
-  "author": "",
+  "author": "Spike Brehm <spike@airbnb.com>",
   "license": "MIT",
   "engines": {
     "npm": ">=1.2"
+  },
+  "devDependencies": {
+    "mocha": "~1.12.0"
   }
 }
