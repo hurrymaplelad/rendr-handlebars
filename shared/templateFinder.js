@@ -1,6 +1,5 @@
 /*global rendr*/
-var minimatch = require('minimatch')
-  , format = require('util').format
+var format = require('util').format
   , cachedTemplates = {};
 
 module.exports = function(Handlebars) {
@@ -9,11 +8,11 @@ module.exports = function(Handlebars) {
    * Provide a way for apps to specify that different template name patterns
    * should use different compiled template files.
    *
-   * The default pattern '**' is very greedy; it matches anything, including nested paths.
+   * The default pattern `/.+/` is very greedy; it matches anything, including nested paths.
    * To add rules that should match before this default rule, `unshift` them from this array.
    */
   var templatePatterns = [{
-    pattern: '**',
+    pattern: /.+/,
     src: rendr.entryPath + '/app/templates/compiledTemplates'
   }];
 
@@ -39,7 +38,7 @@ module.exports = function(Handlebars) {
    */
   function getSrcForTemplate(templateName) {
     var currentPattern = templatePatterns.filter(function(obj) {
-      return minimatch(templateName, obj.pattern);
+      return obj.pattern.test(templateName);
     })[0];
 
     if (currentPattern == null) {

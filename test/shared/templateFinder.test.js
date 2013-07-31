@@ -20,7 +20,7 @@ describe('templateFinder', function() {
        * Add the pattern for templates that should come from a different source file.
        */
       templateAdapter.templatePatterns.unshift({
-        pattern: 'other_template_pattern/**/*',
+        pattern: /^other_template_pattern\//,
         src: rendr.entryPath + '/app/templates/otherTemplates'
       });
 
