@@ -1,6 +1,5 @@
 /*global rendr*/
-var format = require('util').format
-  , cachedTemplates = {};
+var cachedTemplates = {};
 
 module.exports = function(Handlebars) {
 
@@ -42,7 +41,7 @@ module.exports = function(Handlebars) {
     })[0];
 
     if (currentPattern == null) {
-      throw new Error(format('No pattern found to match template "%s".', templateName))
+      throw new Error('No pattern found to match template "' + templateName + '".');
     }
 
     return currentPattern.src;
