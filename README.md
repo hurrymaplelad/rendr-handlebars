@@ -1,3 +1,5 @@
+**[airbnb/rendr-handlebars](https://github.com/airbnb/rendr-handlebars) is where development happens.**
+
 rendr-handlebars
 ================
 
