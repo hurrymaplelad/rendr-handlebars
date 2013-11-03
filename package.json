@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "underscore": "~1.4.4",
-    "handlebars": "git://github.com/spikebrehm/handlebars.js.git#6bbcf3f2225b0e62d249481d07456698da7da65e",
+    "handlebars": "git://github.com/spikebrehm/handlebars.js.git#6bbcf3f2225b0e62d249481d07456698da7da65e"
+  },
+  "peerDependencies": {
     "rendr": ">=0.4.9"
   },
   "keywords": [
@@ -23,7 +25,7 @@
   "author": "Spike Brehm <spike@airbnb.com>",
   "license": "MIT",
   "engines": {
-    "npm": ">=1.2"
+    "npm": ">=1.2.10"
   },
   "devDependencies": {
     "mocha": "~1.12.0"
