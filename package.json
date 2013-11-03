@@ -25,7 +25,7 @@
   "author": "Spike Brehm <spike@airbnb.com>",
   "license": "MIT",
   "engines": {
-    "npm": ">=1.2"
+    "npm": ">=1.2.10"
   },
   "devDependencies": {
     "mocha": "~1.12.0"
