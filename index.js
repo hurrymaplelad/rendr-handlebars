@@ -23,6 +23,10 @@ if (typeof window === 'undefined') {
   var serverOnlyPath_layoutFinder = './server/layoutFinder';
   exports.getLayout = require(serverOnlyPath_layoutFinder)(Handlebars).getLayout;
 } else {
+  // add globals depedency for async loading
+  // should have on effect on the server
+  // and should be preloaded on the client
+  require('rendr/shared/globals');
   exports.getLayout = function() {
     throw new Error('getLayout is only available on the server.');
   };
