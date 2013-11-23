@@ -7,13 +7,8 @@ module.exports = function(Handlebars) {
    * Provide a way for apps to specify that different template name patterns
    * should use different compiled template files.
    *
-   * The default pattern `/.+/` is very greedy; it matches anything, including nested paths.
-   * To add rules that should match before this default rule, `unshift` them from this array.
    */
-  var templatePatterns = [{
-    pattern: /.+/,
-    src: rendr.entryPath + '/app/templates/compiledTemplates'
-  }];
+  var templatePatterns = [];
 
   /**
    * Given a template name, return the compiled Handlebars template.
