@@ -1,53 +1,65 @@
-var Handlebars = require('handlebars')
-  , templateFinder = require('./shared/templateFinder')(Handlebars);
+var Handlebars = require('handlebars');
 
-/**
- * Export the `Handlebars` object, so other modules can add helpers, partials, etc.
- */
-exports.Handlebars = Handlebars;
+module.exports = function(options){
+  var localExports, templateFinder;
 
-/**
- * `getTemplate` is available on both client and server.
- */
-exports.getTemplate = templateFinder.getTemplate;
+  localExports = {};
 
-/**
- * Expose `templatePatterns` for manipulating how `getTemplate` finds templates.
- */
-exports.templatePatterns = templateFinder.templatePatterns;
+  templateFinder = require('./shared/templateFinder')(Handlebars);
 
-/**
- * `getLayout` should only be used on the server.
- */
-if (typeof window === 'undefined') {
-  var serverOnlyPath_layoutFinder = './server/layoutFinder';
-  exports.getLayout = require(serverOnlyPath_layoutFinder)(Handlebars).getLayout;
-} else {
-  // add globals depedency for async loading
-  // should have on effect on the server
-  // and should be preloaded on the client
-  require('rendr/shared/globals');
-  exports.getLayout = function() {
-    throw new Error('getLayout is only available on the server.');
-  };
-}
+  /**
+   * Export the `Handlebars` object, so other modules can add helpers, partials, etc.
+   */
+  localExports.Handlebars = Handlebars;
 
-/**
- * Register helpers, available on both client and server.
- *
- * Export it so other modules can register helpers as well.
- */
-exports.registerHelpers = function registerHelpers(helpersModule) {
-  var helpers = helpersModule(Handlebars, exports.getTemplate);
+  /**
+   * `getTemplate` is available on both client and server.
+   */
+  localExports.getTemplate = templateFinder.getTemplate;
 
-  for (var key in helpers) {
-    if (!helpers.hasOwnProperty(key)) continue;
-    Handlebars.registerHelper(key, helpers[key]);
+  /**
+   * Expose `templatePatterns` for manipulating how `getTemplate` finds templates.
+   */
+  localExports.templatePatterns = templateFinder.templatePatterns;
+  /**
+   * The default pattern `/.+/` is very greedy; it matches anything, including nested paths.
+   * To add rules that should match before this default rule, `unshift` them from this array.
+   */
+  localExports.templatePatterns.push({pattern: /.+/, src: options.entryPath + 'app/templates/compiledTemplates'})
+
+  /**
+   * `getLayout` should only be used on the server.
+   */
+  if (typeof window === 'undefined') {
+    // server only, "hide" it from r.js compiler
+    // by having require statement with variable
+    var serverOnlyLayoutFinderPath = './server/layoutFinder';
+    localExports.getLayout = require(serverOnlyLayoutFinderPath)(Handlebars).getLayout;
+  } else {
+    localExports.getLayout = function() {
+      throw new Error('getLayout is only available on the server.');
+    };
   }
-};
 
-/**
- * Register the pre-bundled Rendr helpers.
- */
-var rendrHelpers = require('./shared/helpers');
-exports.registerHelpers(rendrHelpers);
+  /**
+   * Register helpers, available on both client and server.
+   *
+   * Export it so other modules can register helpers as well.
+   */
+  localExports.registerHelpers = function registerHelpers(helpersModule) {
+    var helpers = helpersModule(Handlebars, localExports.getTemplate);
+
+    for (var key in helpers) {
+      if (!helpers.hasOwnProperty(key)) continue;
+      Handlebars.registerHelper(key, helpers[key]);
+    }
+  };
+
+  /**
+   * Register the pre-bundled Rendr helpers.
+   */
+  var rendrHelpers = require('./shared/helpers');
+  localExports.registerHelpers(rendrHelpers);
+
+  return localExports;
+}
