@@ -10,7 +10,10 @@ module.exports = function(Handlebars, getTemplate) {
     view: function(viewName, options) {
       var ViewClass, html, viewOptions, view;
 
-      BaseView = BaseView || require('rendr/shared/base/view');
+      // it's lazy loaded, not a compile time dependency
+      // hiding it from r.js compiler
+      var lazyRequire_baseView = 'rendr/shared/base/view';
+      BaseView = BaseView || require(lazyRequire_baseView);
       viewOptions = options.hash || {};
 
       // Pass through a reference to the app.

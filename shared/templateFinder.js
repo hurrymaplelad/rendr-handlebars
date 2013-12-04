@@ -22,7 +22,22 @@ module.exports = function(Handlebars) {
     /**
      * Allow compiledTemplates to be created asynchronously.
      */
-    cachedTemplates[src] = cachedTemplates[src] || require(src)(Handlebars);
+    // Make it play nice with AMD
+    // since amd options of grunt-contrib-handlebars
+    // produces different stucture as commonjs options
+    // accomodate both options here
+    if (!cachedTemplates[src])
+    {
+      // amd returns object
+      cachedTemplates[src] = require(src);
+
+      // commonjs returns function
+      if (typeof cachedTemplates[src] == 'function')
+      {
+        cachedTemplates[src] = cachedTemplates[src](Handlebars);
+      }
+    }
+
     return cachedTemplates[src][templateName];
   }
 

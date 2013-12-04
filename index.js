@@ -4,6 +4,7 @@ module.exports = function(options){
   var localExports, templateFinder;
 
   localExports = {};
+
   templateFinder = require('./shared/templateFinder')(Handlebars);
 
   /**
@@ -30,7 +31,10 @@ module.exports = function(options){
    * `getLayout` should only be used on the server.
    */
   if (typeof window === 'undefined') {
-    localExports.getLayout = require('./server/layoutFinder')(Handlebars).getLayout;
+    // server only, "hide" it from r.js compiler
+    // by having require statement with variable
+    var serverOnlyLayoutFinderPath = './server/layoutFinder';
+    localExports.getLayout = require(serverOnlyLayoutFinderPath)(Handlebars).getLayout;
   } else {
     localExports.getLayout = function() {
       throw new Error('getLayout is only available on the server.');
