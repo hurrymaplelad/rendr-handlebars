@@ -71,8 +71,8 @@ module.exports = function(Handlebars, getTemplate) {
       return new Handlebars.SafeString(html);
     },
 
-    json: function(object) {
-      return new Handlebars.SafeString(JSON.stringify(object) || 'null');
+    json: function(object, spacing) {
+      return new Handlebars.SafeString(JSON.stringify(object, null, spacing) || 'null');
     },
 
     /**
