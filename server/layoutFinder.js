@@ -1,4 +1,3 @@
-/*global rendr*/
 var fs = require('fs');
 
 module.exports = function(Handlebars) {

@@ -1,4 +1,3 @@
-/*global rendr*/
 var cachedTemplates = {};
 
 module.exports = function(Handlebars) {
