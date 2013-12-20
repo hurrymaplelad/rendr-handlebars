@@ -1,6 +1,6 @@
-var assert = require('assert')
-  , entryPath = process.cwd() + '/test/fixtures/'
-  , templateAdapter = require('../../index')({entryPath: entryPath});
+var assert = require('assert'),
+    entryPath = process.cwd() + '/test/fixtures/',
+    templateAdapter = require('../../index')({entryPath: entryPath});
 
 describe('templateFinder', function() {
   describe('getTemplate', function() {

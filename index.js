@@ -1,11 +1,8 @@
 var Handlebars = require('handlebars');
 
 module.exports = function(options){
-  var localExports, templateFinder;
-
-  localExports = {};
-
-  templateFinder = require('./shared/templateFinder')(Handlebars);
+  var localExports = {},
+      templateFinder = require('./shared/templateFinder')(Handlebars);
 
   /**
    * Export the `Handlebars` object, so other modules can add helpers, partials, etc.
@@ -21,6 +18,7 @@ module.exports = function(options){
    * Expose `templatePatterns` for manipulating how `getTemplate` finds templates.
    */
   localExports.templatePatterns = templateFinder.templatePatterns;
+
   /**
    * The default pattern `/.+/` is very greedy; it matches anything, including nested paths.
    * To add rules that should match before this default rule, `unshift` them from this array.

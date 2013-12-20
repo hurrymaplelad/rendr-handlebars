@@ -19,20 +19,19 @@ module.exports = function(Handlebars) {
     var src = getSrcForTemplate(templateName);
 
     /**
-     * Allow compiledTemplates to be created asynchronously.
-     */
-    // Make it play nice with AMD
-    // since amd options of grunt-contrib-handlebars
-    // produces different stucture as commonjs options
-    // accomodate both options here
-    if (!cachedTemplates[src])
-    {
-      // amd returns object
+    * Allow compiledTemplates to be created asynchronously by lazy-requiring it.
+    */
+    if (!cachedTemplates[src]) {
       cachedTemplates[src] = require(src);
 
-      // commonjs returns function
-      if (typeof cachedTemplates[src] == 'function')
-      {
+      /**
+       * Make it play nicely with both AMD and CommonJS.
+       * The `grunt-contrib-handlebars` module  produces different stucture
+       * of compiled templates with `amd` vs `commonjs` options. Accommodate
+       * both options here. the `amd` option results in templates as an Object,
+       * whereas the `commonjs` option results in templates as a Function.
+       */
+      if (typeof cachedTemplates[src] == 'function') {
         cachedTemplates[src] = cachedTemplates[src](Handlebars);
       }
     }
