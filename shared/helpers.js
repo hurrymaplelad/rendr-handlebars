@@ -1,51 +1,126 @@
-var BaseView, Handlebars, modelUtils, templateFinder, _;
-
-templateFinder = require('./templateFinder');
-Handlebars = require('handlebars');
-_ = require('underscore');
+var _ = require('underscore');
 
 // Lazy-required.
-BaseView = null;
-modelUtils = null;
+var BaseView = null;
 
-module.exports = {
-  view: function(viewName, block) {
-    var ViewClass, app, html, options, view;
+module.exports = function(Handlebars, getTemplate) {
+  var oldEach = Handlebars.helpers.each;
 
-    BaseView = BaseView || require('rendr/shared/base/view');
-    modelUtils = modelUtils || require('rendr/shared/modelUtils');
-    viewName = modelUtils.underscorize(viewName);
-    options = block.hash || {};
-    app = this._app;
-    if (app != null) {
-      options.app = app;
+  return {
+    view: function(viewName, options) {
+      var ViewClass, html, viewOptions, view;
+
+      // it's lazy loaded, not a compile time dependency
+      // hiding it from r.js compiler
+      var lazyRequire_baseView = 'rendr/shared/base/view';
+      BaseView = BaseView || require(lazyRequire_baseView);
+      viewOptions = options.hash || {};
+
+      // Pass through a reference to the app.
+      var app = getProperty('_app', this, options);
+      if (app) {
+        viewOptions.app = app;
+        viewName = app.modelUtils.underscorize(viewName);
+      } else{
+        throw new Error("An App instance is required when rendering a view, it could not be extracted from the options.")
+      }
+
+      // Pass through a reference to the parent view.
+      var parentView = getProperty('_view', this, options);
+      if (parentView) {
+        viewOptions.parentView = parentView;
+      }
+
+      // get the Backbone.View based on viewName
+      ViewClass = BaseView.getView(viewName, app.options.entryPath);
+      view = new ViewClass(viewOptions);
+
+      // create the outerHTML using className, tagName
+      html = view.getHtml();
+      return new Handlebars.SafeString(html);
+    },
+
+    partial: function(templateName, options) {
+      var data, html, context, template;
+
+      template = getTemplate(templateName);
+
+      context = options.hash || {};
+
+      // First try to use Handlebars' hash arguments as the context for the
+      // partial, if present.
+      //
+      // ex: `{{partial "users/photo" user=user}}`
+      if (_.isEmpty(context)) {
+        // If there are no hash arguments given, then inherit the parent context.
+        //
+        // ex: `{{partial "users/photo"}}`
+        context = this;
+      } else {
+        // If a hash argument is given with key `context`, then use that as the context.
+        //
+        // ex: `{{partial "users/photo" context=user}}`
+        if (context.hasOwnProperty('context')) {
+          context = context.context;
+        }
+      }
+      context = _.clone(context);
+
+      context._app = getProperty('_app', this, options);
+      html = template(context);
+      return new Handlebars.SafeString(html);
+    },
+
+    json: function(object, spacing) {
+      return new Handlebars.SafeString(JSON.stringify(object, null, spacing) || 'null');
+    },
+
+    /**
+     * Extend `each` to pass through important context.
+     */
+    each: function(context, options) {
+      options.data = Handlebars.createFrame(options.data || {});
+
+      // Make sure `this._app`, `this._view`, etc are available.
+      _.extend(options.data, getOptionsFromContext(this));
+
+      // Call the original helper with new context.
+      return oldEach.call(this, context, options);
     }
-
-    // Pass through a reference to the parent view.
-    options.parentView = this._view;
-
-    // get the Backbone.View based on viewName
-    ViewClass = BaseView.getView(viewName);
-    view = new ViewClass(options);
-
-    // create the outerHTML using className, tagName
-    html = view.getHtml();
-    return new Handlebars.SafeString(html);
-  },
-
-  partial: function(templateName, block) {
-    var data, html, options, template;
-
-    template = templateFinder.getTemplate(templateName);
-    options = block.hash || {};
-    data = _.isEmpty(options) ? this : options.context ? options.context : options;
-    data = _.clone(data);
-    data._app = data._app || this._app;
-    html = template(data);
-    return new Handlebars.SafeString(html);
-  },
-
-  json: function(object) {
-    return new Handlebars.SafeString(JSON.stringify(object) || 'null');
-  }
+  };
 };
+
+/**
+ * Grab important underscored properties from the current context.
+ * These properties come from BaseView::decorateTemplateData().
+ */
+function getOptionsFromContext(obj) {
+  var options, keys, value;
+
+  keys = [
+    '_app',
+    '_view',
+    '_model',
+    '_collection'
+  ];
+
+  options = keys.reduce(function(memo, key) {
+    value = obj[key];
+    if (value) {
+      memo[key] = value;
+    }
+    return memo;
+  }, {});
+
+  return options;
+}
+
+/**
+ * Get a property that is being passed down through helpers, such as `_app`
+ * or `_view`. It can either live on the context, i.e. `this._app`, or in the
+ * `options.data` object passed to the helper, i.e. `options.data._app`, in the
+ * case of a block helper like `each`.
+ */
+function getProperty(key, context, options) {
+  return context[key] || (options.data || {})[key];
+}
