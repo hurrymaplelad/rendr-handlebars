@@ -1,3 +1,6 @@
+[![travis-ci status](https://secure.travis-ci.org/airbnb/rendr-handlebars.png)](http://travis-ci.org/#!/airbnb/rendr/builds)
+[![Dependency Status](https://david-dm.org/airbnb/rendr-handlebars.png)](https://david-dm.org/airbnb/rendr)
+
 rendr-handlebars
 ================
 
