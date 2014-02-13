@@ -1,10 +1,11 @@
 var _ = require('underscore');
 
 // Lazy-required.
-var BaseView = null;
+var BaseView = null,
+    oldEach;
 
 module.exports = function(Handlebars, getTemplate) {
-  var oldEach = Handlebars.helpers.each;
+  oldEach = oldEach || Handlebars.helpers.each;
 
   return {
     view: function(viewName, options) {
