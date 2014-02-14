@@ -28,6 +28,9 @@
     "npm": ">=1.2.10"
   },
   "devDependencies": {
-    "mocha": "~1.12.0"
+    "mocha": "~1.12.0",
+    "sinon-chai": "~2.5.0",
+    "chai": "~1.9.0",
+    "sinon": "~1.8.2"
   }
 }
