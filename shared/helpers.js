@@ -1,4 +1,6 @@
-var _ = require('underscore');
+var _ = require('underscore'),
+  isServer = typeof window === 'undefined',
+  isAMDEnvironment = !isServer && (typeof define !== 'undefined');
 
 // Lazy-required.
 var BaseView = null,
@@ -11,10 +13,16 @@ module.exports = function(Handlebars, getTemplate) {
     view: function(viewName, options) {
       var ViewClass, html, viewOptions, view;
 
-      // it's lazy loaded, not a compile time dependency
-      // hiding it from r.js compiler
-      var lazyRequire_baseView = 'rendr/shared/base/view';
-      BaseView = BaseView || require(lazyRequire_baseView);
+      if (!BaseView) {
+        if (isAMDEnvironment) {
+          // it's lazy loaded, not a compile time dependency
+          // hiding it from r.js compiler
+          var lazyRequire_baseView = 'rendr/shared/base/view';
+          BaseView = require(lazyRequire_baseView);
+        } else {
+          BaseView = require('rendr/shared/base/view');
+        }
+      }
       viewOptions = options.hash || {};
 
       // Pass through a reference to the app.
