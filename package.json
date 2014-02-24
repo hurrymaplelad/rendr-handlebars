@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/airbnb/rendr-handlebars.git"
+    "url": "http://github.com/rendrjs/rendr-handlebars.git"
   },
   "dependencies": {
     "underscore": "1.5.2",
