@@ -17,28 +17,49 @@ module.exports = function(Handlebars, getTemplate) {
       }
       viewOptions = options.hash || {};
 
-      // Pass through a reference to the app.
       var app = getProperty('_app', this, options);
-      if (app) {
-        viewOptions.app = app;
-        viewName = app.modelUtils.underscorize(viewName);
-      } else{
-        throw new Error("An App instance is required when rendering a view, it could not be extracted from the options.")
+      if (isServer) {
+        // Pass through a reference to the app.
+        if (app) {
+          viewOptions.app = app;
+          viewName = app.modelUtils.underscorize(viewName);
+        } else{
+          throw new Error("An App instance is required when rendering a view, it could not be extracted from the options.")
+        }
+
+        // Pass through a reference to the parent view.
+        var parentView = getProperty('_view', this, options);
+        if (parentView) {
+          viewOptions.parentView = parentView;
+        }
+
+        // get the Backbone.View based on viewName
+        ViewClass = BaseView.getView(viewName, app.options.entryPath);
+        view = new ViewClass(viewOptions);
+
+        // create the outerHTML using className, tagName
+        html = view.getHtml();
+        return new Handlebars.SafeString(html);
       }
 
-      // Pass through a reference to the parent view.
-      var parentView = getProperty('_view', this, options);
-      if (parentView) {
-        viewOptions.parentView = parentView;
-      }
+      // only create an element to pass attributes to a single point for view instantiation for client-side
 
-      // get the Backbone.View based on viewName
-      ViewClass = BaseView.getView(viewName, app.options.entryPath);
-      view = new ViewClass(viewOptions);
+      // Builds a fetch_summary attribute
+      viewOptions = BaseView.parseModelAndCollection(app.modelUtils, viewOptions);
+      fetchSummary = BaseView.extractFetchSummary(app.modelUtils, viewOptions);
+      fetchSummary = JSON.stringify(fetchSummary)
 
-      // create the outerHTML using className, tagName
-      html = view.getHtml();
-      return new Handlebars.SafeString(html);
+      viewOptions['fetch_summary'] = fetchSummary
+      viewOptions = _.omit(viewOptions, ['model', 'collection'])
+
+      // create a list of data attributes
+      attrString = _.inject(viewOptions, function(memo, value, key) {
+        return memo += " data-" + key + "=\"" + _.escape(value) + "\"";
+      }, '');
+
+      return new Handlebars.SafeString(
+        '<div data-render="true" ' + attrString +' data-view="'+ viewName +'"></div>'
+      )
     },
 
     partial: function(templateName, options) {
