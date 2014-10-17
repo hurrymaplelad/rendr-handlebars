@@ -18,15 +18,15 @@ module.exports = function(Handlebars, getTemplate) {
       viewOptions = options.hash || {};
 
       var app = getProperty('_app', this, options);
-      if (isServer) {
-        // Pass through a reference to the app.
-        if (app) {
-          viewOptions.app = app;
-          viewName = app.modelUtils.underscorize(viewName);
-        } else{
-          throw new Error("An App instance is required when rendering a view, it could not be extracted from the options.")
-        }
+      // Pass through a reference to the app.
+      if (app) {
+        viewOptions.app = app;
+        viewName = app.modelUtils.underscorize(viewName);
+      } else{
+        throw new Error("An App instance is required when rendering a view, it could not be extracted from the options.")
+      }
 
+      if (isServer) {
         // Pass through a reference to the parent view.
         var parentView = getProperty('_view', this, options);
         if (parentView) {
@@ -50,7 +50,7 @@ module.exports = function(Handlebars, getTemplate) {
       fetchSummary = JSON.stringify(fetchSummary)
 
       viewOptions['fetch_summary'] = fetchSummary
-      viewOptions = _.omit(viewOptions, ['model', 'collection'])
+      viewOptions = _.omit(viewOptions, ['model', 'collection', 'app'])
 
       // create a list of data attributes
       attrString = _.inject(viewOptions, function(memo, value, key) {
