@@ -46,14 +46,14 @@ module.exports = function(Handlebars, getTemplate) {
 
       // Builds a fetch_summary attribute
       viewOptions = BaseView.parseModelAndCollection(app.modelUtils, viewOptions);
-      fetchSummary = BaseView.extractFetchSummary(app.modelUtils, viewOptions);
+      var fetchSummary = BaseView.extractFetchSummary(app.modelUtils, viewOptions);
       fetchSummary = JSON.stringify(fetchSummary)
 
       viewOptions['fetch_summary'] = fetchSummary
       viewOptions = _.omit(viewOptions, ['model', 'collection', 'app'])
 
       // create a list of data attributes
-      attrString = _.inject(viewOptions, function(memo, value, key) {
+      var attrString = _.inject(viewOptions, function(memo, value, key) {
         return memo += " data-" + key + "=\"" + _.escape(value) + "\"";
       }, '');
 
