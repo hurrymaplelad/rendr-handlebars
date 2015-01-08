@@ -4,7 +4,7 @@
   "description": "Glue handlebars templates into a Rendr app.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/*.test.js test/**/*.test.js"
+    "test": "mocha \"test/**/*.test.js\""
   },
   "repository": {
     "type": "git",
