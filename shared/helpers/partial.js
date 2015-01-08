@@ -9,7 +9,6 @@ module.exports = function (Handlebars, getTemplate) {
     var data, html, context, template;
 
     template = getTemplate(templateName);
-
     context = options.hash || {};
 
     // First try to use Handlebars' hash arguments as the context for the
