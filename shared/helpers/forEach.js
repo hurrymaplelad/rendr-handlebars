@@ -2,6 +2,7 @@
 * Create a `forEach` helper that works on a few more cases and gives more flexibility
 * when dealing with arrays, objects, or collections
 */
+var _ = require('underscore');
 
 module.exports = function (collection, opts) {
   var len = collection && collection.length,
