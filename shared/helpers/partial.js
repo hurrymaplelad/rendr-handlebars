@@ -1,7 +1,8 @@
 /**
  * create an html partial
  */
-var getProperty = require('../../lib/getProperty');
+var getProperty = require('../../lib/getProperty'),
+    _ = require('underscore');
 
 module.exports = function (Handlebars, getTemplate) {
   return function (templateName, options) {
@@ -28,9 +29,13 @@ module.exports = function (Handlebars, getTemplate) {
         context = context.context;
       }
     }
-    context = _.clone(context);
 
+    context = _.clone(context);
     context._app = getProperty('_app', this, options);
+    if (_.isFunction(options.fn)) {
+      context._block = options.fn(context);
+    }
+
     html = template(context);
     return new Handlebars.SafeString(html);
   };

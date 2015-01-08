@@ -21,6 +21,11 @@ module.exports = function (Handlebars) {
       throw new Error("An App instance is required when rendering a view, it could not be extracted from the options.")
     }
 
+    // allow views to be passed optional block elements
+    if (_.isFunction(options.fn)) {
+      viewOptions._block = options.fn(viewOptions);
+    }
+
     if (isServer) {
       var parentView = getProperty('_view', this, options);
       html = getServerHtml(viewName, viewOptions, parentView);
