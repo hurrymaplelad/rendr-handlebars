@@ -30,7 +30,7 @@ Example:
 {{ view "viewName" model=_model an_option="my option" }}
 
 // with a block
-{{ view "viewName }}
+{{ view "viewName" }}
   <div class="test">My Block</div>
 {{/view}}
 ```
