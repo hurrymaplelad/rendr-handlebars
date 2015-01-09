@@ -9,10 +9,18 @@ rendr-handlebars
 
 ## Helpers
 
+There are a number of variables that are set by default to these helpers and are passed in the context.  Those variables include:
+- `_app` -  The instance of the Rendr application
+- `_model` - when setting the `model` attribute, the `_model` variable will be set as the instance of a Rendr model.
+- `_collection` - when using a `collection` attribute, the `_collection` variable will be set to the instance of the Rendr collection.
+- `_block` - when passing a block to the `view` or `partial` helper, the `_block` variable will be available.  This `_block` variable will be the HTML passed in.
+
 #### view
 ------
 
-The view helper is used to insert a new Rendr view.  This is done on the server-side by generating the html and inserting it inline.  On the client-side it creates a placeholder, and the `attach` step in Rendr to create the view instance and insert the HTML.  If you don't pass any attributes to the helper, it set the context (or scope) of the helper to the same as the parents.  You can also pass a block into the helper and it will be available inside of the created view as `_block`.
+The view helper is used to insert a new Rendr view.  This is done on the server-side by generating the html and inserting it inline.  On the client-side it creates a placeholder, and then in Rendr it will call the `attach` function to create a view instance and insert the HTML.  If you don't pass any attributes to the helper, it sets the context (or scope) of the helper to the same as the parents.
+
+You can also pass a block into the helper and it will be available inside of the created view as `_block`.  This is helpful when you want to have a chunk of HTML differ in a view, but have the majority of it stay the same.
 
 Example:
 ```
@@ -30,7 +38,9 @@ Example:
 #### partial
 ------
 
-A partial is HTML only, and it is inserted at compile time of the templates, making them more performant than a view.  These are good to use in cases where you don't have any view interaction and just want to reduce the amount of copied HTML.  Again, this will inherit the parents context if no attributes are passed into the helper.  Again, you can pass a block into the partial and access the `_block` variable inside of the partial.
+A partial is HTML only, and it is inserted at compile time of the templates, making them more performant than a view.  These are good to use in cases where you don't have any view interaction and just want to reduce the amount of copied HTML.  This will inherit the parents context if no attributes are passed into the helper.
+
+Again, you can pass a block into the partial and access the `_block` variable inside of the partial.  This is helpful when you want to set a variable chunk of HTML inside of a partial
 
 Example:
 ```
@@ -49,6 +59,7 @@ Example:
 ------
 
 This helper simply takes an object and runs `JSON.stringify` on the object.  You can also pass the [spacing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#space_argument) into the helper.
+
 Example:
 ```
 {{json myObject}}
@@ -60,13 +71,13 @@ Example:
 #### each
 ------
 
-Works as you would expect the Handlebars [each](http://handlebarsjs.com/builtin_helpers.html#iteration) helper to work.
+Iterates an array setting the context to the value of the array element.  Works as you would expect the Handlebars [each](http://handlebarsjs.com/builtin_helpers.html#iteration) helper to work, but this adds Rendr specific options set in the context (`_app`, `_model`, `_collection`, `_block`)
 
 Example:
 ```html
 <ul>
   {{ each arr }}
-    <li>this<li>
+    <li>{{this}}<li>
   {{/each}}
 </ul>
 ```
