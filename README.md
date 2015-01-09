@@ -107,13 +107,17 @@ Example:
    <div>{{attribute}}</div>
 {{/forEach}}
 
-<!-- where value is what is stored in the array, can also store an array of objects and access them on the value with the dot operator -->
+<!-- where value is what is stored in the array, can also store an array of objects
+and access them on the value with the dot operator -->
 <h1>for each array of objs test</h1>
 {{forEach arr}}
   {{if _isFirst}}
     <div>Will only display for first element in array and collection</div>
+  {{/if}}
+
   {{if _isLast}}
     <div>Will only display for last element in array and collection</div>
+  {{/if}}
   <span>{{ value }}</span>
 {{/forEach}}
 
