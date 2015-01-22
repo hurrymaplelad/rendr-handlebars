@@ -2,7 +2,8 @@
  * Helper to create new views in the templates
  */
 
-var getProperty = require('../../lib/getProperty'),
+var _ = require('underscore'),
+    getProperty = require('../../lib/getProperty'),
     isServer = typeof window === 'undefined',
     BaseView;
 
