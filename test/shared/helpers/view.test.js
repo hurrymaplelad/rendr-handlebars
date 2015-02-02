@@ -110,5 +110,25 @@ describe('view', function () {
         );
       });
     });
+
+    context('when the viewOptions contains an object', function () {
+      it('serializes the object correctly', function () {
+        var result = subject('test', {
+          data: {
+            '_app': app()
+          },
+          hash: {
+            generic_object: {
+              a: 1,
+              b: 2,
+              c: 3
+            }
+          }
+        });
+        expect(result.string).to.eq(
+          '<div data-render="true" data-generic_object="{&quot;a&quot;:1,&quot;b&quot;:2,&quot;c&quot;:3}" data-fetch_summary="{}" data-view="test"></div>'
+        );
+      });
+    });
   });
 });

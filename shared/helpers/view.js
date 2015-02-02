@@ -68,7 +68,7 @@ function getClientPlaceholder(viewName, viewOptions) {
 
   // create a list of data attributes
   var attrString = _.inject(viewOptions, function(memo, value, key) {
-    if (_.isArray(value)) { value = JSON.stringify(value); }
+    if (_.isArray(value) || _.isObject(value)) { value = JSON.stringify(value); }
     return memo += " data-" + key + "=\"" + _.escape(value) + "\"";
   }, '');
 
