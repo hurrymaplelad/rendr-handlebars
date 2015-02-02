@@ -4,12 +4,12 @@
 
 var _ = require('underscore'),
     getProperty = require('../../lib/getProperty'),
-    isServer = typeof window === 'undefined',
     BaseView;
 
 module.exports = function (Handlebars) {
   return function (viewName, options) {
-    var ViewClass, html, viewOptions, view, app;
+    var isServer = typeof window === 'undefined',
+        html, viewOptions, view, app;
 
     viewOptions = options.hash || {};
     app = getProperty('_app', this, options);
@@ -39,6 +39,8 @@ module.exports = function (Handlebars) {
 };
 
 function getServerHtml(viewName, viewOptions, parentView) {
+  var ViewClass, view;
+
   if (!BaseView) { BaseView = require('rendr/shared/base/view'); }
 
   // Pass through a reference to the parent view.
@@ -66,8 +68,9 @@ function getClientPlaceholder(viewName, viewOptions) {
 
   // create a list of data attributes
   var attrString = _.inject(viewOptions, function(memo, value, key) {
+    if (_.isArray(value)) { value = JSON.stringify(value); }
     return memo += " data-" + key + "=\"" + _.escape(value) + "\"";
   }, '');
 
-  return '<div data-render="true" ' + attrString +' data-view="'+ viewName +'"></div>';
+  return '<div data-render="true"' + attrString +' data-view="'+ viewName +'"></div>';
 }
