@@ -112,7 +112,7 @@ describe('view', function () {
     });
 
     context('when the viewOptions contains an object', function () {
-      it('serializes the objects correctly', function () {
+      it('serializes the object correctly', function () {
         var result = subject('test', {
           data: {
             '_app': app()
