@@ -1,5 +1,11 @@
+# 0.2.3
+## 2015-02-03
+* stringify objects
+* added view tests
+* fixed missing require for underscore
+
 # 0.2.2
-## 2015-01-8
+## 2015-01-08
 * Changed the shared/helpers to follow a CommonJS pattern of requiring each helper separately
 * added tests for the helpers
 * added a `forEach` helper
