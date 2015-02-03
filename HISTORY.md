@@ -1,3 +1,7 @@
+# 0.2.4
+## 2015-02-03
+* invoke block views with the parent scope
+
 # 0.2.3
 ## 2015-02-03
 * stringify objects
