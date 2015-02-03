@@ -1,6 +1,7 @@
 var Handlebars = require('handlebars').create(),
     memo = require('memo-is'),
     chai = require('chai'),
+    sinon = require('sinon'),
     proxyquire = require('proxyquire').noCallThru(),
     expect = chai.expect,
     BaseViewStub = {
@@ -34,9 +35,22 @@ describe('view', function () {
         };
       });
 
+  context('has a block', function () {
+    it('will pass the correct options to for a block', function () {
+      var stub = sinon.stub().returns('<div>test</div>');
+
+      var result = subject.call({
+        _app: app()
+      }, 'test', { fn: stub });
+
+      expect(stub).to.have.been.called;
+      expect(stub.firstCall.args[0]).to.have.ownProperty('_app');
+    });
+  })
+
   context('server-side', function () {
     before(function () {
-      GLOBAL.window = undefined;
+      global.window = undefined;
     });
 
     it('should error if there is no app in the options', function () {
@@ -55,11 +69,11 @@ describe('view', function () {
 
   context('client-side', function () {
     before(function () {
-      GLOBAL.window = true;
+      global.window = true;
     });
 
     after(function () {
-      GLOBAL.window = undefined;
+      global.window = undefined;
     });
 
     context('when extractFetchSummary returns an empty object', function () {

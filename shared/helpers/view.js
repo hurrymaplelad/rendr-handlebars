@@ -24,7 +24,8 @@ module.exports = function (Handlebars) {
 
     // allow views to be passed optional block elements
     if (_.isFunction(options.fn)) {
-      viewOptions._block = options.fn(viewOptions);
+      var blockOptions = _.extend({}, this, viewOptions);
+      viewOptions._block = options.fn(blockOptions);
     }
 
     if (isServer) {
