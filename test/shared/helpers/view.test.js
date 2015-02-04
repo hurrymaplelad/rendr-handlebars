@@ -25,12 +25,16 @@ ViewClass.prototype.getHtml = function () {
   return '<p>Foo</p>'
 };
 
+function ModelClass() {}
+
+function CollectionClass() {}
+
 describe('view', function () {
   var app = memo().is(function () {
         return {
           options: { entryPath: '/path' },
           modelUtils: {
-            underscorize: function (name) { return name }
+            underscorize: function (name) { return name; }
           }
         };
       });
@@ -60,9 +64,10 @@ describe('view', function () {
     });
 
     it("returns the result of the view instance's getHtml method", function() {
-      var result = subject('test', {
-        data: { '_app': app() }
-      });
+      var result = subject.call({
+        _app: app()
+      }, 'test', {});
+
       expect(result.string).to.eq('<p>Foo</p>');
     });
   });
@@ -78,9 +83,10 @@ describe('view', function () {
 
     context('when extractFetchSummary returns an empty object', function () {
       it('creates a string with data-render set to true', function () {
-        var result = subject('test', {
-          data: {'_app': app() }
-        });
+        var result = subject.call({
+          _app: app()
+        }, 'test', {});
+
         expect(result.string).to.eq(
           '<div data-render="true" data-fetch_summary="{}" data-view="test"></div>'
         )
@@ -90,29 +96,56 @@ describe('view', function () {
     context('when extractFetchSummary returns a model', function () {
       BaseViewStub.extractFetchSummary.is(function () {
         return {
-          model: {
-            model: 'SomeModel',
+          some_model: {
+            model: 'ModelClass',
             id: 1
           }
         };
       });
 
-      it('includes the fetch summary for the model', function () {
-        var result = subject('test', {
-          data: { '_app': app() }
+      it('includes the fetch summary for the model and does not include a data-attribute for the model', function () {
+        var result = subject.call({
+          _app: app()
+        }, 'test', {
+          hash: {
+            some_model: new ModelClass()
+          }
         });
         expect(result.string).to.eq(
-          '<div data-render="true" data-fetch_summary="{&quot;model&quot;:{&quot;model&quot;:&quot;SomeModel&quot;,&quot;id&quot;:1}}" data-view="test"></div>'
+          '<div data-render="true" data-fetch_summary="{&quot;some_model&quot;:{&quot;model&quot;:&quot;ModelClass&quot;,&quot;id&quot;:1}}" data-view="test"></div>'
+        )
+      });
+    });
+
+    context('when extractFetchSummary returns a collection', function () {
+      BaseViewStub.extractFetchSummary.is(function () {
+        return {
+          some_collection: {
+            collection: 'CollectionClass',
+            id: 1
+          }
+        };
+      });
+
+      it('includes the fetch summary for the collection and does not include a data-attribute for the collection', function () {
+        var result = subject.call({
+          _app: app()
+        }, 'test', {
+          hash: {
+            some_collection: new CollectionClass()
+          }
+        });
+        expect(result.string).to.eq(
+          '<div data-render="true" data-fetch_summary="{&quot;some_collection&quot;:{&quot;collection&quot;:&quot;CollectionClass&quot;,&quot;id&quot;:1}}" data-view="test"></div>'
         )
       });
     });
 
     context('when the viewOptions contain arrays', function () {
       it('serializes the arrays correctly', function () {
-        var result = subject('test', {
-          data: {
-            '_app': app()
-          },
+        var result = subject.call({
+          _app: app()
+        }, 'test', {
           hash: {
             number_array: [1, 2, 3],
             string_array: ['foo', 'bar'],
@@ -127,10 +160,9 @@ describe('view', function () {
 
     context('when the viewOptions contains an object', function () {
       it('serializes the object correctly', function () {
-        var result = subject('test', {
-          data: {
-            '_app': app()
-          },
+        var result = subject.call({
+          _app: app()
+        }, 'test', {
           hash: {
             generic_object: {
               a: 1,

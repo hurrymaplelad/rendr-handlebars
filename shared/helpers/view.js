@@ -62,10 +62,8 @@ function getClientPlaceholder(viewName, viewOptions) {
   // Builds a fetch_summary attribute
   viewOptions = BaseView.parseModelAndCollection(viewOptions.app.modelUtils, viewOptions);
   fetchSummary = BaseView.extractFetchSummary(viewOptions.app.modelUtils, viewOptions);
-  fetchSummary = JSON.stringify(fetchSummary)
-
   viewOptions['fetch_summary'] = fetchSummary
-  viewOptions = _.omit(viewOptions, ['model', 'collection', 'app'])
+  viewOptions = _.omit(viewOptions, _.keys(fetchSummary).concat(['model', 'collection', 'app']));
 
   // create a list of data attributes
   var attrString = _.inject(viewOptions, function(memo, value, key) {
