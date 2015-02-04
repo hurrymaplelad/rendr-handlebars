@@ -64,9 +64,10 @@ describe('view', function () {
     });
 
     it("returns the result of the view instance's getHtml method", function() {
-      var result = subject('test', {
-        data: { '_app': app() }
-      });
+      var result = subject.call({
+        _app: app()
+      }, 'test', {});
+
       expect(result.string).to.eq('<p>Foo</p>');
     });
   });
@@ -82,9 +83,10 @@ describe('view', function () {
 
     context('when extractFetchSummary returns an empty object', function () {
       it('creates a string with data-render set to true', function () {
-        var result = subject('test', {
-          data: {'_app': app() }
-        });
+        var result = subject.call({
+          _app: app()
+        }, 'test', {});
+
         expect(result.string).to.eq(
           '<div data-render="true" data-fetch_summary="{}" data-view="test"></div>'
         )
@@ -102,10 +104,9 @@ describe('view', function () {
       });
 
       it('includes the fetch summary for the model and does not include a data-attribute for the model', function () {
-        var result = subject('test', {
-          data: {
-            '_app': app()
-          },
+        var result = subject.call({
+          _app: app()
+        }, 'test', {
           hash: {
             some_model: new ModelClass()
           }
@@ -127,10 +128,9 @@ describe('view', function () {
       });
 
       it('includes the fetch summary for the collection and does not include a data-attribute for the collection', function () {
-        var result = subject('test', {
-          data: {
-            '_app': app()
-          },
+        var result = subject.call({
+          _app: app()
+        }, 'test', {
           hash: {
             some_collection: new CollectionClass()
           }
@@ -143,10 +143,9 @@ describe('view', function () {
 
     context('when the viewOptions contain arrays', function () {
       it('serializes the arrays correctly', function () {
-        var result = subject('test', {
-          data: {
-            '_app': app()
-          },
+        var result = subject.call({
+          _app: app()
+        }, 'test', {
           hash: {
             number_array: [1, 2, 3],
             string_array: ['foo', 'bar'],
@@ -161,10 +160,9 @@ describe('view', function () {
 
     context('when the viewOptions contains an object', function () {
       it('serializes the object correctly', function () {
-        var result = subject('test', {
-          data: {
-            '_app': app()
-          },
+        var result = subject.call({
+          _app: app()
+        }, 'test', {
           hash: {
             generic_object: {
               a: 1,
