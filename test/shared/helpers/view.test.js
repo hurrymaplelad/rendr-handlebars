@@ -25,12 +25,16 @@ ViewClass.prototype.getHtml = function () {
   return '<p>Foo</p>'
 };
 
+function ModelClass() {}
+
+function CollectionClass() {}
+
 describe('view', function () {
   var app = memo().is(function () {
         return {
           options: { entryPath: '/path' },
           modelUtils: {
-            underscorize: function (name) { return name }
+            underscorize: function (name) { return name; }
           }
         };
       });
@@ -90,19 +94,49 @@ describe('view', function () {
     context('when extractFetchSummary returns a model', function () {
       BaseViewStub.extractFetchSummary.is(function () {
         return {
-          model: {
-            model: 'SomeModel',
+          some_model: {
+            model: 'ModelClass',
             id: 1
           }
         };
       });
 
-      it('includes the fetch summary for the model', function () {
+      it('includes the fetch summary for the model and does not include a data-attribute for the model', function () {
         var result = subject('test', {
-          data: { '_app': app() }
+          data: {
+            '_app': app()
+          },
+          hash: {
+            some_model: new ModelClass()
+          }
         });
         expect(result.string).to.eq(
-          '<div data-render="true" data-fetch_summary="{&quot;model&quot;:{&quot;model&quot;:&quot;SomeModel&quot;,&quot;id&quot;:1}}" data-view="test"></div>'
+          '<div data-render="true" data-fetch_summary="{&quot;some_model&quot;:{&quot;model&quot;:&quot;ModelClass&quot;,&quot;id&quot;:1}}" data-view="test"></div>'
+        )
+      });
+    });
+
+    context('when extractFetchSummary returns a collection', function () {
+      BaseViewStub.extractFetchSummary.is(function () {
+        return {
+          some_collection: {
+            collection: 'CollectionClass',
+            id: 1
+          }
+        };
+      });
+
+      it('includes the fetch summary for the collection and does not include a data-attribute for the collection', function () {
+        var result = subject('test', {
+          data: {
+            '_app': app()
+          },
+          hash: {
+            some_collection: new CollectionClass()
+          }
+        });
+        expect(result.string).to.eq(
+          '<div data-render="true" data-fetch_summary="{&quot;some_collection&quot;:{&quot;collection&quot;:&quot;CollectionClass&quot;,&quot;id&quot;:1}}" data-view="test"></div>'
         )
       });
     });
