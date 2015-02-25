@@ -1,3 +1,10 @@
+# 1.0.0
+## 2015-02-24
+* update to handlebars 2.0.0
+* update to underscore 1.8.2
+* add serverToClientJson for an example of how to escape JSON between the client and server
+* omit anything in the fetch params that as a data attribute
+
 # 0.2.4
 ## 2015-02-03
 * invoke block views with the parent scope
