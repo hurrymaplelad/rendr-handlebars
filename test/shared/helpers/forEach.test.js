@@ -64,10 +64,10 @@ describe('forEach', function () {
       var thisCall = spy.getCall(0),
           args = thisCall.args[0];
 
-      expect(args._app).to.deep.equal(scope.app);
-      expect(args._view).to.deep.equal(scope.view);
-      expect(args._model).to.deep.equal(scope.model);
-      expect(args._collection).to.deep.equal(scope.collection);
+      expect(args).to.have.property('_app').that.deep.equals(scope.app);
+      expect(args).to.have.property('_view').that.deep.equals(scope.view);
+      expect(args).to.have.property('_model').that.deep.equals(scope.model);
+      expect(args).to.have.property('_collection').that.deep.equals(scope.collection);
     })
 
     it('will have the private properties attached if it is nested in another helper', function () {
@@ -84,10 +84,10 @@ describe('forEach', function () {
       var thisCall = spy.getCall(0),
           args = thisCall.args[0];
 
-      expect(args._app).to.deep.equal(scope._app);
-      expect(args._view).to.deep.equal(scope._view);
-      expect(args._model).to.deep.equal(scope._model);
-      expect(args._collection).to.deep.equal(scope._collection);
+      expect(args).to.have.property('_app').that.deep.equals(scope._app);
+      expect(args).to.have.property('_view').that.deep.equals(scope._view);
+      expect(args).to.have.property('_model').that.deep.equals(scope._model);
+      expect(args).to.have.property('_collection').that.deep.equals(scope._collection);
     });
   });
 
