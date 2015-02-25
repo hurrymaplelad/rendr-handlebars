@@ -46,8 +46,8 @@ describe('forEach', function () {
       var thisCall = spy.getCall(0),
           args = thisCall.args[0];
 
-      expect(args.key).to.equal('a');
-      expect(args.value).to.equal('b');
+      expect(args).to.have.property('key', 'a');
+      expect(args).to.have.property('value', 'b');
     })
 
     it('will have the private properties attached', function () {
@@ -103,11 +103,11 @@ describe('forEach', function () {
       var thisCall = spy.getCall(0),
           args = thisCall.args[0];
 
-      expect(args.key).to.equal(0);
-      expect(args.value).to.equal('a');
-      expect(args._isFirst).to.equal(true);
-      expect(args._isLast).to.equal(false);
-      expect(args._total).to.equal(3);
+      expect(args).to.have.property('key', 0);
+      expect(args).to.have.property('value', 'a');
+      expect(args).to.have.property('_isFirst', true);
+      expect(args).to.have.property('_isLast', false);
+      expect(args).to.have.property('_total', 3);
     });
 
     it('calls opts.fn correctly for the middle element', function () {
@@ -117,9 +117,9 @@ describe('forEach', function () {
       var thisCall = spy.getCall(1),
           args = thisCall.args[0];
 
-      expect(args.key).to.equal(1);
-      expect(args._isFirst).to.equal(false);
-      expect(args._isLast).to.equal(false);
+      expect(args).to.have.property('key', 1);
+      expect(args).to.have.property('_isFirst', false);
+      expect(args).to.have.property('_isLast', false);
     });
 
     it('calls opts.fn correctly for the last element', function () {
@@ -129,8 +129,8 @@ describe('forEach', function () {
       var thisCall = spy.getCall(2),
           args = thisCall.args[0];
 
-      expect(args.key).to.equal(2);
-      expect(args._isLast).to.equal(true);
+      expect(args).to.have.property('key', 2);
+      expect(args).to.have.property('_isLast', true);
     });
   });
 
@@ -174,9 +174,9 @@ describe('forEach', function () {
         var thisCall = spy.getCall(0),
             args = thisCall.args[0];
 
-        expect(args._isFirst).to.equal(true);
-        expect(args._isLast).to.equal(false);
-        expect(args._total).to.equal(3);
+        expect(args).to.have.property('_isFirst', true);
+        expect(args).to.have.property('_isLast', false);
+        expect(args).to.have.property('_total', 3);
       })
 
       it('should pass a model as the value', function () {
