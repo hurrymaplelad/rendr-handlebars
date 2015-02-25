@@ -21,5 +21,6 @@ describe('helpers', function () {
     expect(subject.forEach).to.be.a('function');
     expect(subject.partial).to.be.a('function');
     expect(subject.view).to.be.a('function');
+    expect(subject.serverToClientJson).to.be.a('function');
   });
 });

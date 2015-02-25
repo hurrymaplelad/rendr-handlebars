@@ -4,6 +4,7 @@ module.exports = function(Handlebars, getTemplate) {
     partial: require('./helpers/partial')(Handlebars, getTemplate),
     json: require('./helpers/json')(Handlebars),
     each: require('./helpers/each')(Handlebars),
+    serverToClientJson: require('./helpers/serverToClientJson')(Handlebars),
     forEach: require('./helpers/forEach')
   };
 };
