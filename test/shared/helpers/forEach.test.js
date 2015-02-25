@@ -46,8 +46,8 @@ describe('forEach', function () {
       var thisCall = spy.getCall(0),
           args = thisCall.args[0];
 
-      expect(args.key).to.equal('a');
-      expect(args.value).to.equal('b');
+      expect(args).to.have.property('key', 'a');
+      expect(args).to.have.property('value', 'b');
     })
 
     it('will have the private properties attached', function () {
@@ -64,10 +64,10 @@ describe('forEach', function () {
       var thisCall = spy.getCall(0),
           args = thisCall.args[0];
 
-      expect(args._app).to.deep.equal(scope.app);
-      expect(args._view).to.deep.equal(scope.view);
-      expect(args._model).to.deep.equal(scope.model);
-      expect(args._collection).to.deep.equal(scope.collection);
+      expect(args).to.have.property('_app').that.deep.equals(scope.app);
+      expect(args).to.have.property('_view').that.deep.equals(scope.view);
+      expect(args).to.have.property('_model').that.deep.equals(scope.model);
+      expect(args).to.have.property('_collection').that.deep.equals(scope.collection);
     })
 
     it('will have the private properties attached if it is nested in another helper', function () {
@@ -84,10 +84,10 @@ describe('forEach', function () {
       var thisCall = spy.getCall(0),
           args = thisCall.args[0];
 
-      expect(args._app).to.deep.equal(scope._app);
-      expect(args._view).to.deep.equal(scope._view);
-      expect(args._model).to.deep.equal(scope._model);
-      expect(args._collection).to.deep.equal(scope._collection);
+      expect(args).to.have.property('_app').that.deep.equals(scope._app);
+      expect(args).to.have.property('_view').that.deep.equals(scope._view);
+      expect(args).to.have.property('_model').that.deep.equals(scope._model);
+      expect(args).to.have.property('_collection').that.deep.equals(scope._collection);
     });
   });
 
@@ -103,11 +103,11 @@ describe('forEach', function () {
       var thisCall = spy.getCall(0),
           args = thisCall.args[0];
 
-      expect(args).to.deep.property('key', 0);
-      expect(args).to.deep.property('value', 'a');
-      expect(args).to.deep.property('_isFirst', true);
-      expect(args).to.deep.property('_isLast', false);
-      expect(args).to.deep.property('_total', 3);
+      expect(args).to.have.property('key', 0);
+      expect(args).to.have.property('value', 'a');
+      expect(args).to.have.property('_isFirst', true);
+      expect(args).to.have.property('_isLast', false);
+      expect(args).to.have.property('_total', 3);
     });
 
     it('calls opts.fn correctly for the middle element', function () {
@@ -117,9 +117,9 @@ describe('forEach', function () {
       var thisCall = spy.getCall(1),
           args = thisCall.args[0];
 
-      expect(args).to.deep.property('key', 1);
-      expect(args).to.deep.property('_isFirst', false);
-      expect(args).to.deep.property('_isLast', false);
+      expect(args).to.have.property('key', 1);
+      expect(args).to.have.property('_isFirst', false);
+      expect(args).to.have.property('_isLast', false);
     });
 
     it('calls opts.fn correctly for the last element', function () {
@@ -129,8 +129,8 @@ describe('forEach', function () {
       var thisCall = spy.getCall(2),
           args = thisCall.args[0];
 
-      expect(args).to.deep.property('key', 2);
-      expect(args).to.deep.property('_isLast', true);
+      expect(args).to.have.property('key', 2);
+      expect(args).to.have.property('_isLast', true);
     });
   });
 
@@ -174,9 +174,9 @@ describe('forEach', function () {
         var thisCall = spy.getCall(0),
             args = thisCall.args[0];
 
-        expect(args._isFirst).to.equal(true);
-        expect(args._isLast).to.equal(false);
-        expect(args._total).to.equal(3);
+        expect(args).to.have.property('_isFirst', true);
+        expect(args).to.have.property('_isLast', false);
+        expect(args).to.have.property('_total', 3);
       })
 
       it('should pass a model as the value', function () {
