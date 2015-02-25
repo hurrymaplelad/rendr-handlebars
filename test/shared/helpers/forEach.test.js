@@ -103,11 +103,11 @@ describe('forEach', function () {
       var thisCall = spy.getCall(0),
           args = thisCall.args[0];
 
-      expect(args).to.deep.property('key', 0);
-      expect(args).to.deep.property('value', 'a');
-      expect(args).to.deep.property('_isFirst', true);
-      expect(args).to.deep.property('_isLast', false);
-      expect(args).to.deep.property('_total', 3);
+      expect(args.key).to.equal(0);
+      expect(args.value).to.equal('a');
+      expect(args._isFirst).to.equal(true);
+      expect(args._isLast).to.equal(false);
+      expect(args._total).to.equal(3);
     });
 
     it('calls opts.fn correctly for the middle element', function () {
@@ -117,9 +117,9 @@ describe('forEach', function () {
       var thisCall = spy.getCall(1),
           args = thisCall.args[0];
 
-      expect(args).to.deep.property('key', 1);
-      expect(args).to.deep.property('_isFirst', false);
-      expect(args).to.deep.property('_isLast', false);
+      expect(args.key).to.equal(1);
+      expect(args._isFirst).to.equal(false);
+      expect(args._isLast).to.equal(false);
     });
 
     it('calls opts.fn correctly for the last element', function () {
@@ -129,8 +129,8 @@ describe('forEach', function () {
       var thisCall = spy.getCall(2),
           args = thisCall.args[0];
 
-      expect(args).to.deep.property('key', 2);
-      expect(args).to.deep.property('_isLast', true);
+      expect(args.key).to.equal(2);
+      expect(args._isLast).to.equal(true);
     });
   });
 
