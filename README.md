@@ -143,10 +143,10 @@ and access them on the value with the dot operator -->
 {{forEach myCollection toJSON=true}}
   <span>{{ key }} :::: {{ value.someAttr }}</span>
 {{/forEach}}
-```
 
 <!-- can be used in conjunction with the view operator to pass the model to child views -->
 <h1>forEach collection -> subview</h1>
 {{forEach myCollection }}
   {{view model=value model_name="ExampleModel"}}
 {{/forEach}}
+```
