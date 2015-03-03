@@ -2,7 +2,7 @@ var Handlebars = require('handlebars');
 
 module.exports = function(options){
   var localExports = {},
-      templateFinder = require('./shared/templateFinder')(Handlebars);
+      templateFinder = options.templateFinder || require('./shared/templateFinder')(Handlebars);
 
   /**
    * Export the `Handlebars` object, so other modules can add helpers, partials, etc.
