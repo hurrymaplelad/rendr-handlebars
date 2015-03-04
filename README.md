@@ -9,7 +9,7 @@ rendr-handlebars
 ## Configuration options
 
 - `entryPath` *optional* - change the location of the application for the given rendr-app (same as the `entryPath` in the rendr configuration options
-- `templateFinder` *optional* - allows the ability to require a different template finder.  Commonly used to make a non-dynamic version of `require` to make buid systems more efficient.
+- `templateFinder` *optional* - allows the ability to require a different template finder.  Commonly used to make a non-dynamic version of `require` to make build systems more efficient.
 
 ## Helpers
 
