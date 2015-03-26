@@ -1,6 +1,6 @@
 {
   "name": "rendr-handlebars",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Glue handlebars templates into a Rendr app.",
   "main": "index.js",
   "scripts": {

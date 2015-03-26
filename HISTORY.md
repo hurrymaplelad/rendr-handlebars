@@ -1,3 +1,8 @@
+# 1.0.1
+## 2015-03-26
+* allow instance of templateFinder to be passed in
+* only ship handlbars runtime, greatly reduces client bundle size
+
 # 1.0.0
 ## 2015-02-24
 * update to handlebars 2.0.0
