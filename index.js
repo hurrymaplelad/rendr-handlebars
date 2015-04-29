@@ -1,14 +1,13 @@
-var Handlebars = require('handlebars');
+module.exports = function(options, Handlebars) {
 
-if (Handlebars['default']) {
-  // If we only have the Handlebars runtime available, use that here.
-  // Until Handlebars 3, we have to use 'default' instead of just requiring 'handlebars'.
-  Handlebars = Handlebars['default'];
-}
+  if (Handlebars['default']) {
+    // If we only have the Handlebars runtime available, use that here.
+    // Until Handlebars 3, we have to use 'default' instead of just requiring 'handlebars'.
+    Handlebars = Handlebars['default'];
+  }
 
-module.exports = function(options){
   var localExports = {},
-      templateFinder = options.templateFinder || require('./shared/templateFinder')(Handlebars);
+    templateFinder = options.templateFinder || require('./shared/templateFinder')(Handlebars);
 
   /**
    * Export the `Handlebars` object, so other modules can add helpers, partials, etc.

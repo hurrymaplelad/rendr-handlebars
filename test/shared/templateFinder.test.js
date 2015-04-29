@@ -1,6 +1,7 @@
 var assert = require('assert'),
     entryPath = process.cwd() + '/test/fixtures/',
-    templateAdapter = require('../../index')({entryPath: entryPath});
+    Handlebars = require('handlebars'),
+    templateAdapter = require('../../index')({entryPath: entryPath}, Handlebars);
 
 describe('templateFinder', function() {
   describe('getTemplate', function() {
