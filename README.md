@@ -5,6 +5,10 @@ rendr-handlebars
 ================
 
 [Handlebars](http://handlebarsjs.com/) template adapter for [Rendr](https://github.com/rendrjs/rendr) apps.
+This library has been tested using [Handlebars 2.0.0](https://github.com/wycats/handlebars.js/tree/v2.0.0).
+
+If you'd like to use a more recent version number of `Handlebars` for your app, just specify it in the [package.json](https://github.com/rendrjs/rendr/blame/master/README.md#L315) of your app and start testing it.
+
 
 ## Configuration options
 
