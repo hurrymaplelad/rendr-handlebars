@@ -1,3 +1,6 @@
+# 2.0.0
+* handlebars is no longer included here, it needs to be installed at the app level.
+
 # 1.0.1
 ## 2015-03-26
 * allow instance of templateFinder to be passed in
