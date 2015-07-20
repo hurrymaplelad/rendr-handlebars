@@ -14,7 +14,7 @@
     "underscore": "^1.8.2"
   },
   "peerDependencies": {
-    "rendr": ">=1.2.0"
+    "rendr": ">=1.1.0"
   },
   "keywords": [
     "rendr",
