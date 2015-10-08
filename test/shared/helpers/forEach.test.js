@@ -135,7 +135,7 @@ describe('forEach', function () {
   });
 
   context('empty array', function () {
-    it('should call teh inverse function', function () {
+    it('should call the inverse function', function () {
       var inverseSpy = sinon.spy(opts(), 'inverse');
       subject.call(scope, [], opts());
 
@@ -144,65 +144,86 @@ describe('forEach', function () {
   })
 
   context('is a collection', function () {
-    data = { 'a': 'b', 'c': 'd' };
-    var currentCollection;
+    var currentCollection,
+        collection = memo().is(function () {});
 
-    var collection = memo().is(function () {
-      var retVal = new Collection();
-      for (var i = 0; i < 3; i++) {
-        data.id = i;
-        retVal.add(new Model(data));
-      }
-
-      return retVal;
-    });
     isCollection.is(function () {
       return function () {
         return true;
       };
     });
 
-    context('default', function () {
-      beforeEach(function () {
-        currentCollection = collection();
+    context('collection is not empty', function () {
+      data = { 'a': 'b', 'c': 'd' };
+      collection.is(function () {
+        var retVal = new Collection();
+        for (var i = 0; i < 3; i++) {
+          data.id = i;
+          retVal.add(new Model(data));
+        }
+
+        return retVal;
+      });
+
+      context('default', function () {
+        beforeEach(function () {
+          currentCollection = collection();
+        })
+
+        it('will set the _ array properties', function () {
+          subject.call(scope, currentCollection, opts());
+          expect(spy).to.have.been.calledThrice;
+
+          var thisCall = spy.getCall(0),
+              args = thisCall.args[0];
+
+          expect(args).to.have.property('_isFirst', true);
+          expect(args).to.have.property('_isLast', false);
+          expect(args).to.have.property('_total', 3);
+        })
+
+        it('should pass a model as the value', function () {
+          subject.call(scope, currentCollection, opts());
+          expect(spy).to.have.been.calledThrice;
+
+          var thisCall = spy.getCall(0);
+          expect(thisCall.args[0].value).to.deep.equal(currentCollection.first());
+        })
       })
 
-      it('will set the _ array properties', function () {
-        subject.call(scope, currentCollection, opts());
-        expect(spy).to.have.been.calledThrice;
+      context('is toJSON', function () {
+        var jsonOpts;
 
-        var thisCall = spy.getCall(0),
-            args = thisCall.args[0];
+        beforeEach(function () {
+          currentCollection = collection();
+          jsonOpts = opts();
+          jsonOpts.hash.toJSON = true;
+        })
 
-        expect(args).to.have.property('_isFirst', true);
-        expect(args).to.have.property('_isLast', false);
-        expect(args).to.have.property('_total', 3);
-      })
+        it('should pass a jsonified version of the model', function () {
+          subject.call(scope, currentCollection, jsonOpts);
+          expect(spy).to.have.been.calledThrice;
 
-      it('should pass a model as the value', function () {
-        subject.call(scope, currentCollection, opts());
-        expect(spy).to.have.been.calledThrice;
-
-        var thisCall = spy.getCall(0);
-        expect(thisCall.args[0].value).to.deep.equal(currentCollection.first());
+          var thisCall = spy.getCall(0);
+          expect(thisCall.args[0].value).to.deep.equal(currentCollection.first().toJSON());
+        })
       })
     })
 
-    context('is toJSON', function () {
-      var jsonOpts;
+    context('collection is empty', function () {
+      collection.is(function () {
+        return new Collection();
+      });
 
       beforeEach(function () {
         currentCollection = collection();
-        jsonOpts = opts();
-        jsonOpts.hash.toJSON = true;
       })
 
-      it('should pass a jsonified version of the model', function () {
-        subject.call(scope, currentCollection, jsonOpts);
-        expect(spy).to.have.been.calledThrice;
+      it('should call the inverse function', function () {
+        var inverseSpy = sinon.spy(opts(), 'inverse');
+        subject.call(scope, currentCollection, opts());
 
-        var thisCall = spy.getCall(0);
-        expect(thisCall.args[0].value).to.deep.equal(currentCollection.first().toJSON());
+        expect(inverseSpy).to.have.been.called;
       })
     })
   })

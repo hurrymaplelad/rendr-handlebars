@@ -10,6 +10,11 @@ module.exports = function (collection, opts) {
       isCollection = app.modelUtils.isCollection(collection),
       buffer = '';
 
+  // iterate the models on a collection
+  if (isCollection) {
+    collection = collection.models
+  }
+
   if (_.isEmpty(collection)) {
     return opts.inverse(_.extend({}, this, {
       _app: app,
@@ -17,11 +22,6 @@ module.exports = function (collection, opts) {
       _collection: this._collection || this.collection,
       _view: this._view || this.view
     }));
-  }
-
-  // iterate the models on a collection
-  if (isCollection) {
-    collection = collection.models
   }
 
   _.each(collection, function (value, key) {
