@@ -68,7 +68,7 @@ function getClientPlaceholder(viewName, viewOptions, Handlebars) {
   // create a list of data attributes
   var attrString = _.inject(viewOptions, function(memo, value, key) {
     if (_.isArray(value) || _.isObject(value)) {
-      if (key === '_block' && value.contructor === Handlebars.SafeString) {
+      if (key === '_block' && value instanceof Handlebars.SafeString) {
         value = value.string;
       } else {
         value = JSON.stringify(value);
