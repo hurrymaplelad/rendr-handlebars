@@ -32,7 +32,7 @@ module.exports = function (Handlebars) {
       var parentView = getProperty('_view', this, options);
       html = getServerHtml(viewName, viewOptions, parentView);
     } else {
-      html = getClientPlaceholder(viewName, viewOptions);
+      html = getClientPlaceholder(viewName, viewOptions, Handlebars);
     }
 
     return new Handlebars.SafeString(html);
@@ -55,7 +55,7 @@ function getServerHtml(viewName, viewOptions, parentView) {
   return view.getHtml();
 }
 
-function getClientPlaceholder(viewName, viewOptions) {
+function getClientPlaceholder(viewName, viewOptions, Handlebars) {
   if (!BaseView) { BaseView = require('rendr/shared/base/view'); }
   var fetchSummary;
 
@@ -67,7 +67,13 @@ function getClientPlaceholder(viewName, viewOptions) {
 
   // create a list of data attributes
   var attrString = _.inject(viewOptions, function(memo, value, key) {
-    if (_.isArray(value) || _.isObject(value)) { value = JSON.stringify(value); }
+    if (_.isArray(value) || _.isObject(value)) {
+      if (key === '_block' && value instanceof Handlebars.SafeString) {
+        value = value.string;
+      } else {
+        value = JSON.stringify(value);
+      }
+    }
     return memo += " data-" + key + "=\"" + _.escape(value) + "\"";
   }, '');
 

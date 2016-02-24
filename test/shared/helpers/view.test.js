@@ -175,6 +175,22 @@ describe('view', function () {
           '<div data-render="true" data-generic_object="{&quot;a&quot;:1,&quot;b&quot;:2,&quot;c&quot;:3}" data-fetch_summary="{}" data-view="test"></div>'
         );
       });
+
+      context('when the key is _block and is of type Handlebars.SafeString', function () {
+        it('extracts the string correctly', function () {
+          var html = '<div>something</div>',
+            result = subject.call({
+            _app: app()
+          }, 'test', {
+            hash: {
+              _block: new Handlebars.SafeString(html)
+            }
+          });
+          expect(result.string).to.eq(
+            '<div data-render="true" data-_block="&lt;div&gt;something&lt;/div&gt;" data-fetch_summary="{}" data-view="test"></div>'
+          );
+        });
+      });
     });
   });
 });
