@@ -1,3 +1,10 @@
+# 2.0.2
+* bugfix for the forEach / else helper
+* bugfix for parital -> view nesting
+
+# 2.0.1
+* Bug fix for the peerDependency of rendr to be at 1.1.0 instead of 1.2.0.
+
 # 2.0.0
 * handlebars is no longer included here, it needs to be installed at the app level.
 
